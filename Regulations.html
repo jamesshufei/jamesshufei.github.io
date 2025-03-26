@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>資通安全管理法規</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            background-image: url('bg.png');
+            background-size: cover;
+            background-position: center;
+            padding: 10px;
+            border-bottom: 2px solid #ccc;
+            position: relative;
+        }
+        .header .logo {
+            width: 70px;
+            height: 70px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        
+        .header .audit-button {
+            height: 25px;
+            font-size: 14px;
+            padding: 2px 5px;
+            background-color: #00004d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 110px;
+            margin-top: 3px;
+            box-sizing: border-box;
+        }
+        .header .audit-button:hover {
+            background-color: #0056b3;
+        }
+        .header .title-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex-grow: 1;
+        }
+        .header .title {
+            font-size: 24px;
+            font-weight: bold;
+            margin: 5px 0;
+        }
+        .header .subtitle {
+            font-size: 18px;
+            color: black;
+        }
+        .color-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: absolute;
+            right: 20px;
+            bottom: 5px;
+        }
+        .color-input input[type="color"] {
+            width: 30px;
+            height: 30px;
+            border: none;
+            cursor: pointer;
+        }
+        .color-button {
+            padding: 5px 10px;
+            background-color: #00004d;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .color-button:hover {
+            background-color: #0056b3;
+        }
+        .main {
+            display: flex;
+            flex: 1;
+            height: 100%;
+        }
+        .left-frame {
+            flex: 10%;
+            background-image: url('bg-left.png');
+            background-repeat: no-repeat;
+            background-position: center;
+            border-right: 2px solid #ccc;
+            padding: 5px;
+            overflow-y: auto;
+        }
+        .middle-frame {
+            flex: 45%;
+            background-color: #52527a;
+            border-right: 2px solid #ccc;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .right-frame {
+            flex: 45%;
+            background-color: #52527a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .button, .small-button {
+            display: block;
+            margin: 5px 0;
+            padding: 10px;
+            background-color: #00004d;
+            color: white;
+            text-align: left;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            width: 100%;
+            box-sizing: border-box;
+            transition: color 0.3s ease, background-color 0.3s ease;
+        }
+        .button:hover, .small-button:hover {
+            background-color: #0056b3;
+        }
+        .small-button {
+            font-size: 12px;
+            padding: 5px;
+        }
+        .middle-frame img, .right-frame img {
+            max-width: 100%;
+            max-height: 100%;
+        }
+        .digital-clock-container {
+    position: absolute;
+    left: 110px;
+    top: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;  /* 改為靠左對齊 */
+    gap: 3px;
+}
+
+    .button-group {
+    position: absolute;
+    left: 230px;  /* 移到資安稽核按鈕右側 */
+    top: 55px;    /* 與資安稽核按鈕同高 */
+    display: flex;
+    gap: 10px;    /* 按鈕之間的間距 */
+    }
+
+        .audit-button {
+    height: 25px;
+    font-size: 14px;
+    padding: 2px 5px;
+    background-color: #00004d;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 110px;
+    box-sizing: border-box;
+    }
+    /* 資安稽核按鈕特別樣式 */
+    .audit-button.yellow-text {
+    color: yellow;  /* 將文字顏色改為黃色 */
+    }    
+
+/* 其他三個按鈕的綠色文字樣式 */
+    .button-group .audit-button {
+    color: #00ff00;  /* 設定為綠色 */
+    }
+        .digital-clock {
+            background-color: #00004d;
+            color: #00ffff;
+            padding: 3px 5px;
+            border-radius: 5px;
+            font-family: monospace;
+            text-align: center;
+            width: 110px;
+            display: flex;
+            flex-direction: column;
+            gap: 0px;
+            box-sizing: border-box;
+        }
+        .digital-clock #time {
+            font-size: 16px;            
+            line-height: 1.2;
+        }
+        .digital-clock #date {
+            font-size: 13px;
+            line-height: 1.2;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <img src="logo.png" alt="Logo" class="logo" onclick="resetPage()">
+        <div class="digital-clock-container">
+            <div class="digital-clock">
+                <div id="time">00:00:00</div>
+                <div id="date">0000-00-00</div>
+            </div>       
+            <button class="audit-button yellow-text" onclick="openAuditPage()">資安稽核</button>       
+        </div>
+        <div class="button-group">
+            <button class="audit-button" onclick="openModaPage()">資通安全署</button>
+            <button class="audit-button" onclick="openNicstPage()">資通安全研究院</button>
+            <button class="audit-button" onclick="openCnsPage()">CNS國家標準</button>
+        </div>
+        
+        <div class="title-container">
+            <div class="title">資通安全管理法規</div>
+            <div class="subtitle">法規及附表</div>
+        </div>
+        <div class="color-input">
+            <input type="color" id="colorPicker" value="#00004d">
+            <button class="color-button" onclick="changeButtonColor()">更改按鈕顏色</button>
+        </div>
+    </div>
+    <div class="main">
+        <div class="left-frame">
+            <button class="button" onclick="showPDF('01資通安全管理法.pdf', 'middle')">1️⃣資安管理法</button>
+            <button class="button" onclick="showPDF('02資通安全管理法施行細則.pdf', 'middle')">2️⃣資安施行細則</button>
+            <button class="button" onclick="showPDF('03資通安全責任等級分級辦法.pdf', 'middle')">3️⃣資安等級分級辦法</button>
+            <button class="button" onclick="showPDF('04資通安全事件通報及應變辦法.pdf', 'middle')">4️⃣通報及應變辦法</button>
+            <button class="button" onclick="showPDF('05特定非公務機關資通安全維護計畫實施情形稽核辦法.pdf', 'middle')">5️⃣特非機關稽核辦法</button>
+            <button class="button" onclick="showPDF('06資通安全情資分享辦法.pdf', 'middle')">6️⃣資安情資分享辦法</button>
+            <button class="button" onclick="showPDF('07公務機關所屬人員資通安全事項獎懲辦法.pdf', 'middle')">7️⃣資安獎懲辦法</button>
+            
+            <hr>
+            <button class="button small-button" onclick="showPDF('附表一 資通安全責任等級A級之公務機關應辦事項修正規定.pdf', 'right')">附表1：A級公務機關</button>
+            <button class="button small-button" onclick="showPDF('附表二 資通安全責任等級A級之特定非公務機關應辦事項修正規定.pdf', 'right')">附表2：A級特定非公務機關</button>
+            <button class="button small-button" onclick="showPDF('附表三 資通安全責任等級B級之公務機關應辦事項修正規定.pdf', 'right')">附表3：B級公務機關</button>
+            <button class="button small-button" onclick="showPDF('附表四 資通安全責任等級B級之特定非公務機關應辦事項修正規定.pdf', 'right')">附表4：B級特定非公務機關</button>
+            <button class="button small-button" onclick="showPDF('附表五 資通安全責任等級C級之公務機關應辦事項修正規定.pdf', 'right')">附表5：C級公務機關</button>
+            <button class="button small-button" onclick="showPDF('附表六 資通安全責任等級C級之特定非公務機關應辦事項修正規定.pdf', 'right')">附表6：C級特定非公務機關</button>
+            <button class="button small-button" onclick="showPDF('附表七 資通安全責任等級D級之各機關應辦事項修正規定.pdf', 'right')">附表7：D級各機關</button>
+            <button class="button small-button" onclick="showPDF('附表八 資通安全責任等級E級之各機關應辦事項修正規定.pdf', 'right')">附表8：E級各機關</button>
+            <button class="button small-button" onclick="showPDF('附表九 資通系統防護需求分級原則.pdf', 'right')">附表9：系統分級原則</button>
+            <button class="button small-button" onclick="showPDF('附表十 資通系統防護基準.pdf', 'right')">附表10：系統防護基準</button>
+            <button class="button small-button" onclick="showPDF('資安常問題.pdf', 'right')">😊資安法規常見問題</button>
+        </div>
+        <div class="middle-frame" id="middle-frame">
+            <img src="001.jpg" alt="初始圖片">
+        </div>
+        <div class="right-frame" id="right-frame">
+            <img src="991.jpg" alt="初始圖片">
+        </div>
+    </div>
+    <script>
+        function showPDF(file, target) {
+            const frame = document.getElementById(`${target}-frame`);
+            frame.innerHTML = `<iframe src="${file}" style="width:100%; height:100%; border:none;"></iframe>`;
+        }
+
+        function resetPage() {
+            location.reload();
+        }
+
+        function changeButtonColor() {
+            const color = document.getElementById('colorPicker').value;
+            const buttons = document.querySelectorAll('.button, .small-button');
+            buttons.forEach(button => {
+                button.style.backgroundColor = color;
+                button.style.color = getContrastColor(color); // 動態調整文字顏色
+            });
+        }
+
+        function openAuditPage() {
+            window.location.href = '../index.html';
+        }
+
+        function openModaPage() {
+         window.open('https://moda.gov.tw/ACS/', '_blank');
+        }
+
+        function openNicstPage() {
+        window.open('https://www.nics.nat.gov.tw/', '_blank');
+        }
+        function openCnsPage() {
+        window.open('https://www.cnsonline.com.tw/?node=search&locale=zh_TW', '_blank');
+        }
+        // 取得對比顏色 (黑色或白色)
+        function getContrastColor(bgColor) {
+            const r = parseInt(bgColor.substr(1, 2), 16);
+            const g = parseInt(bgColor.substr(3, 2), 16);
+            const b = parseInt(bgColor.substr(5, 2), 16);
+            const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+            return brightness > 128 ? 'black' : 'white'; // 根據亮度決定文字顏色
+        }
+
+        // 數位時鐘功能
+        function updateClock() {
+            const now = new Date();
+            
+            // 格式化時間
+            const hours = String(now.getHours()).padStart(2, '0');
+            const minutes = String(now.getMinutes()).padStart(2, '0');
+            const seconds = String(now.getSeconds()).padStart(2, '0');
+            const timeString = `${hours}:${minutes}:${seconds}`;
+            
+            // 格式化日期
+            const year = now.getFullYear();
+            const month = String(now.getMonth() + 1).padStart(2, '0');
+            const day = String(now.getDate()).padStart(2, '0');
+            const dateString = `${year}-${month}-${day}`;
+            
+            // 更新顯示
+            document.getElementById('time').innerHTML = timeString;
+            document.getElementById('date').innerHTML = dateString;
+        }
+
+        // 初始更新
+        updateClock();
+        // 每秒更新一次
+        setInterval(updateClock, 1000);
+    </script>
+</body>
+</html>
