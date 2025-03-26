@@ -140,19 +140,22 @@
             display: flex;
             flex: 1;
             height: 100%;
+            overflow: hidden;
         }
         .left-frame {
-            flex: 0 0 auto; /* 不會縮放，保持原始大小 */
-            width: 10%; /* 初始寬度，可調整 */
+            flex: 0 0 auto;
+            width: clamp(200px, 15vw, 400px); /* 使用 clamp 設置最小、預設和最大寬度 */
             background-image: url('bg-left.png');
             background-repeat: no-repeat;
             background-position: center;
             border-right: 2px solid #ccc;
-            padding: 5px;
+            padding: 10px;
             overflow-y: auto;
-            min-width: 100px; /* 設置最小寬度 */
-            resize: horizontal; /* 允許水平調整大小 */
-            overflow: auto;
+            resize: horizontal;
+            position: relative;
+            box-sizing: border-box;
+            min-width: 180px; /* 最小寬度 */
+            max-width: 50vw; /* 最大寬度為視窗寬度的 50% */
         }
 
         .middle-frame {
@@ -183,6 +186,7 @@
             max-width: 100%;
             max-height: 100%;
         }
+        /* 按鈕容器樣式 */
         .button {
             display: block;
             margin: 5px 0;
@@ -193,10 +197,11 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 12px;
+            font-size: clamp(11px, 1vw, 14px); /* 自適應字體大小 */
             width: 100%;
             box-sizing: border-box;
             transition: color 0.3s ease, background-color 0.3s ease;
+            word-wrap: break-word; /* 允許文字換行 */
         }
         .button:hover {
             background-color: #0056b3;
@@ -236,50 +241,78 @@
             line-height: 1.2;
         }
 
-        /* 新增 sub-buttons 容器的樣式 */
+        /* sub-buttons 容器樣式 */
         .sub-buttons {
             display: flex;
-            gap: 5px; /* 按鈕之間的間距 */
+            gap: 5px;
             margin: 5px 0;
             width: 100%;
-         }
-         .sub-button {
-        flex: 1;
-        background-color: #00004d;
-        color: rgb(38, 222, 255);
-        padding: 10px;
-        border: 2px solid #ccc;
-        border-radius: 4px;
-        cursor: pointer;
-        font-size: 12px;
-        text-align: left;
-        box-sizing: border-box;
-        transition: color 0.3s ease, background-color 0.3s ease;
-        width: calc(50% - 2.5px); /* 減去間距的一半 */
-    }
+            box-sizing: border-box;
+        }
+
+        .sub-button,
+        .sub2-button {
+            flex: 1;
+            padding: 10px;
+            background-color: #00004d;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: clamp(11px, 1vw, 14px); /* 自適應字體大小 */
+            text-align: left;
+            box-sizing: border-box;
+            transition: color 0.3s ease, background-color 0.3s ease;
+            word-wrap: break-word; /* 允許文字換行 */
+            min-width: 0; /* 允許按鈕縮小到比內容更小 */
+            display: flex; /* 新增 */
+            justify-content: center; /* 新增：水平置中 */
+            align-items: center; /* 新增：垂直置中 */
+        }
+
         .sub-button:hover {
             background-color: #0056b3;
         }
 
-        .sub2-button {
-            flex: 1;
-            background-color: #00004d;
-            color: rgb(248, 184, 253);
-            padding: 10px;
-            border: 2px solid #ccc;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 12px;
-            text-align: left;
-            box-sizing: border-box;
-            transition: color 0.3s ease, background-color 0.3s ease;
-            width: calc(50% - 2.5px); /* 減去間距的一半 */
-        }
+        
         .sub2-button:hover {
             background-color: #0056b3;
         }
          
-    
+            /* 特定顏色設置 */
+        .sub-button {
+            color: rgb(38, 222, 255);
+        }
+
+        .sub2-button {
+            color: rgb(248, 184, 253);
+        }
+
+        /* 響應式媒體查詢 */
+        @media screen and (max-width: 768px) {
+            .left-frame {
+                width: clamp(150px, 25vw, 300px);
+            }
+            
+            .button,
+            .sub-button,
+            .sub2-button {
+                padding: 8px;
+                font-size: 11px;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .left-frame {
+                width: clamp(120px, 30vw, 200px);
+            }
+            
+            .button,
+            .sub-button,
+            .sub2-button {
+                padding: 6px;
+                font-size: 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -460,7 +493,7 @@
             }
         }
         function openRegulations() {
-            window.open('../Regulations/Regulations.html', '_blank');
+            window.open('Regulations/Regulations.html', '_blank');
         }
         
         function updateClock() {
